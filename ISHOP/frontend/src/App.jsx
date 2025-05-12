@@ -7,6 +7,7 @@ import Dashboard from './admin/pages/DashBoard'
 import ViewCategory from './admin/pages/category/ViewCategory'
 import AddCategory from './admin/pages/category/AddCategory'
 import Contact from './website/pages/Contact'
+import EditCategory from './admin/pages/category/EditCategory'
 
 export default function App() {
   const routers = createBrowserRouter([
@@ -40,6 +41,10 @@ export default function App() {
         {
           path: "category/add",
           element: <AddCategory />
+        },
+        {
+          path: "category/edit/:categoryId",
+          element: <EditCategory />
         }
       ]
     }
