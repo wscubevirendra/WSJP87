@@ -2,10 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const categoryRouter = require("./router/categoryRouter");
+const colorRouter = require("./router/colorRouter");
+const ProductRouter = require("./router/productRouter");
 const server = express();
 server.use(cors());
 server.use(express.json());
-server.use("/category", categoryRouter)
+server.use("/category", categoryRouter);
+server.use("/color", colorRouter);
+server.use("/product", ProductRouter)
 server.use(express.static("./public"));
 
 

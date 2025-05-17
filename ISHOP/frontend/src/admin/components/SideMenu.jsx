@@ -64,17 +64,17 @@ const SideMenu = () => {
                         <span>Category</span>
                 </Link>
 
-                <div className="flex items-center gap-3 hover:text-white cursor-pointer">
+                <Link to="/admin/color" className="flex items-center gap-3 hover:text-white cursor-pointer">
                     <IoIosColorPalette className="text-lg" />
                     <span>Color</span>
 
-                </div>
+                </Link>
 
-                <div className="flex items-center gap-3 hover:text-white cursor-pointer">
+                <Link to="/admin/product" className="flex items-center gap-3 hover:text-white cursor-pointer">
                     <FaProductHunt className="text-lg" />
                     <span>Product</span>
 
-                </div>
+                </Link>
             </div>
 
             {/* Components Section */}

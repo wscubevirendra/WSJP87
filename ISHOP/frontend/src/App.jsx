@@ -8,6 +8,11 @@ import ViewCategory from './admin/pages/category/ViewCategory'
 import AddCategory from './admin/pages/category/AddCategory'
 import Contact from './website/pages/Contact'
 import EditCategory from './admin/pages/category/EditCategory'
+import ViewColor from './admin/pages/color/ViewColor'
+import AddColor from './admin/pages/color/AddColor'
+import AddProduct from './admin/pages/product/AddProduct'
+import ViewProduct from './admin/pages/product/ViewProduct'
+import MultipleImage from './admin/pages/product/MultipleImage'
 
 export default function App() {
   const routers = createBrowserRouter([
@@ -45,6 +50,25 @@ export default function App() {
         {
           path: "category/edit/:categoryId",
           element: <EditCategory />
+        },
+        {
+          path: "color",
+          element: <ViewColor />
+        },
+        {
+          path: "color/add",
+          element: <AddColor />
+        },
+        {
+          path: "product",
+          element: <ViewProduct />
+        },
+        {
+          path: "product/add",
+          element: <AddProduct />
+        }, {
+          path: "product/multiple/:productId",
+          element: <MultipleImage />
         }
       ]
     }

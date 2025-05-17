@@ -2,6 +2,7 @@ import React, { useContext, useRef } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import axios from 'axios';
 import { MainContext } from '../../../Context';
+import { Link } from "react-router-dom"
 
 const AddCategory = () => {
   const { API_BASE_URL, CATEGORY_URL, notify } = useContext(MainContext)
@@ -20,7 +21,7 @@ const AddCategory = () => {
     formData.append("name", nameRef.current.value);
     formData.append("slug", slugRef.current.value);
     formData.append("image", e.target.category_image.files[0])
- 
+
     axios.post(API_BASE_URL + CATEGORY_URL + "/create", formData).then(
       (resp) => {
         notify(resp.data.msg, resp.data.flag)
@@ -45,9 +46,11 @@ const AddCategory = () => {
 
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-gray-800">Category / Create</h2>
-          <button class="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-all">
-            Back to View
-          </button>
+          <Link to="/admin/category">
+            <button class="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-all">
+              Back to View
+            </button></Link>
+
         </div>
 
 
