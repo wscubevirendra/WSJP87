@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     FiGrid,
     FiLayout,
@@ -11,11 +11,24 @@ import { FaProductHunt } from "react-icons/fa6";
 import { IoIosColorPalette } from "react-icons/io";
 import { TbCategoryFilled } from "react-icons/tb";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 const SideMenu = () => {
+    const navigator = useNavigate()
+    const admin = useSelector((state) => state.admin?.data)
+    useEffect(
+        () => {
+            if (admin == null) {
+                navigator('/admin/login')
+            }
+
+        },
+        []
+    )
     return (
         <div className="w-full h-screen bg-[#1e1e2f] text-gray-300 p-5">
             {/* Logo */}
@@ -60,8 +73,8 @@ const SideMenu = () => {
                 <div className="uppercase text-xs text-gray-500 font-semibold">Pages</div>
                 <Link className="flex items-center gap-3 hover:text-white cursor-pointer" to="/admin/category">
 
-                        <TbCategoryFilled className="text-lg" />
-                        <span>Category</span>
+                    <TbCategoryFilled className="text-lg" />
+                    <span>Category</span>
                 </Link>
 
                 <Link to="/admin/color" className="flex items-center gap-3 hover:text-white cursor-pointer">

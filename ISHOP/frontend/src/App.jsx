@@ -13,6 +13,7 @@ import AddColor from './admin/pages/color/AddColor'
 import AddProduct from './admin/pages/product/AddProduct'
 import ViewProduct from './admin/pages/product/ViewProduct'
 import MultipleImage from './admin/pages/product/MultipleImage'
+import Login from './admin/pages/login'
 
 export default function App() {
   const routers = createBrowserRouter([
@@ -71,6 +72,10 @@ export default function App() {
           element: <MultipleImage />
         }
       ]
+    },
+    {
+      path: "/admin/login",
+      element: <Login />
     }
   ])
   return (
