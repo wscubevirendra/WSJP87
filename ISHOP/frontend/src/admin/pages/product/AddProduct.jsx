@@ -43,7 +43,7 @@ const AddProduct = () => {
     formData.append("categoryId", e.target.categoryId.value);
     formData.append("colors", JSON.stringify(selColors))
 
-    axios.patch(API_BASE_URL + PRODUCT_URL + "/create", formData).then(
+    axios.post(API_BASE_URL + PRODUCT_URL + "/create", formData).then(
       (resp) => {
         notify(resp.data.msg, resp.data.flag)
         if (resp.data.flag === 1) {

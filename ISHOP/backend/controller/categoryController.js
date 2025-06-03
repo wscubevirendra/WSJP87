@@ -1,5 +1,6 @@
 const { createUniqueImageName } = require("../helper");
 const CategoryModel = require("../model/categoryModel");
+const ProductModel = require("../model/productModel");
 const { unlinkSync } = require("fs")
 
 const categoryController = {
@@ -55,15 +56,36 @@ const categoryController = {
             let categories = null;
             if (id) {
                 categories = await CategoryModel.findById(id)
+                res.send({ msg: "Categories fetched successfully", flag: 1, categories })
 
             } else {
+
                 categories = await CategoryModel.find();
+                const allcategory = [];
+                const allPromise = categories.map(
+                    async (Category) => {
+                        const productCount = await ProductModel.findOne({ categoryId: Category._id }).countDocuments();
+
+                        allcategory.push({
+                            ...Category.toJSON(),
+                            productCount: productCount
+                        });
+
+
+
+
+                    }
+
+
+                )
+                await Promise.all(allPromise)
+                res.send({ msg: "Categories fetched successfully", flag: 1, categories: allcategory })
             }
 
             if (!categories) {
                 return res.send({ msg: "No categories found", flag: 0 });
             }
-            res.send({ msg: "Categories fetched successfully", flag: 1, categories })
+
 
 
         } catch (err) {

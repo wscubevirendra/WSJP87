@@ -1,6 +1,9 @@
-const ProductModel = require("../model/ProductModel");
+
 const { createUniqueImageName } = require("../helper");
-const { unlinkSync } = require("fs")
+const { unlinkSync } = require("fs");
+const CategoryModel = require("../model/categoryModel");
+const ColorModel = require("../model/colorModel");
+const ProductModel = require("../model/productModel");
 
 const productController = {
     async create(req, res) {
@@ -28,6 +31,7 @@ const productController = {
                         await category.save().then(() => {
                             res.send({ msg: "Product created successfully", flag: 1 })
                         }).catch((err) => {
+                            console.log(err)
                             return res.send({ msg: "Unable to create product", flag: 0 })
                         })
 
@@ -50,12 +54,22 @@ const productController = {
     async getdata(req, res) {
         try {
             const id = req.params.id;
-            let products = null;
+            const filterQuery = {};  //{categoryId:categoryId}
+            if (req.query.categorySlug) {
+                const category = await CategoryModel.findOne({ slug: req.query.categorySlug });
+                filterQuery.categoryId = category._id;
+            }
+
+            if (req.query.colorSlug) {
+                const color = await ColorModel.findOne({ slug: req.query.colorSlug });
+                filterQuery.colors = { $in: [color._id] };
+            }
+
             if (id) {
                 products = await ProductModel.findById(id)
 
             } else {
-                products = await ProductModel.find().populate(["categoryId", "colors"]);
+                products = await ProductModel.find(filterQuery).limit(req.query.limit || 0).populate(["categoryId", "colors"]);
             }
 
             if (!products) {

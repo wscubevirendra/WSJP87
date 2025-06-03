@@ -78,6 +78,7 @@ const ViewProduct = () => {
 
   return (
     <div className="overflow-x-auto bg-white rounded-xl shadow-lg p-4">
+      <Link to="/admin/product/add"><button>Add</button></Link>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>

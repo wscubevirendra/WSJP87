@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { lsToAdmin } from './redux/features/adminSlice'
 import WebsiteLayout from './website/pages/WebsiteLayout'
 import Home from './website/pages/Home'
 import AdminLayout from './admin/pages/AdminLayout'
@@ -14,8 +16,21 @@ import AddProduct from './admin/pages/product/AddProduct'
 import ViewProduct from './admin/pages/product/ViewProduct'
 import MultipleImage from './admin/pages/product/MultipleImage'
 import Login from './admin/pages/login'
+import Store from './website/pages/Store'
+import Cart from './website/pages/Cart'
+import AuthForm from './website/pages/AuthForm'
+import { lsToUser } from './redux/features/userSlice'
+import Checkout from './website/pages/Checkout'
 
 export default function App() {
+  const dispacher = useDispatch()
+  useEffect(
+    () => {
+      dispacher(lsToAdmin())
+      dispacher(lsToUser())
+    },
+    []
+  )
   const routers = createBrowserRouter([
     {
       path: "/",
@@ -28,6 +43,18 @@ export default function App() {
         {
           path: "/contact",
           element: <Contact />
+        },
+        {
+          path: "/store/:categorySlug?",
+          element: <Store />
+        },
+        {
+          path: "/cart",
+          element: <Cart />
+        },
+        {
+          path: "/checkout",
+          element: <Checkout />
         }
       ]
     }
@@ -76,6 +103,10 @@ export default function App() {
     {
       path: "/admin/login",
       element: <Login />
+    },
+    {
+      path: "/login",
+      element: <AuthForm />
     }
   ])
   return (

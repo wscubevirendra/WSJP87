@@ -11,24 +11,31 @@ import { FaProductHunt } from "react-icons/fa6";
 import { IoIosColorPalette } from "react-icons/io";
 import { TbCategoryFilled } from "react-icons/tb";
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { lsToAdmin, setAdmin } from '../../redux/features/adminSlice';
 
 
 
 
 const SideMenu = () => {
-    const navigator = useNavigate()
-    const admin = useSelector((state) => state.admin?.data)
+    const navigator = useNavigate();
+    const admin = useSelector((state) => state.admin?.data);
+
+
     useEffect(
         () => {
             if (admin == null) {
                 navigator('/admin/login')
+            } else {
+                navigator("/admin")
             }
 
         },
-        []
+        [admin]
     )
+
+
     return (
         <div className="w-full h-screen bg-[#1e1e2f] text-gray-300 p-5">
             {/* Logo */}

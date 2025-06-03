@@ -12,6 +12,7 @@ function Context(props) {
     const COLOR_URL = "color";
     const PRODUCT_URL = "product";
     const ADMIN_URL = "admin";
+    const USER_URL = "user";
 
     const notify = (msg, flag) => toast(msg, { type: flag ? 'success' : 'error' });
 
@@ -58,14 +59,26 @@ function Context(props) {
     }
 
 
-    function getProduct(id = null) {
+    function getProduct(id = null, limit = 0, categorySlug = null, colorSlug = null) {
+        console.log(limit, "limit")
         let URL = API_BASE_URL + PRODUCT_URL
         //http://localhost:5000/category/id
         if (id != null) {
             URL = URL + `/${id}`
 
         }
-        axios.get(URL).then(
+        const query = new URLSearchParams();
+
+        query.append('limit', limit);
+        if (categorySlug) {
+            query.append('categorySlug', categorySlug);
+        }
+        if (colorSlug) {
+            query.append('colorSlug', colorSlug);
+        }
+
+
+        axios.get(URL + "?" + query).then(
             (response) => {
                 if (response.data.flag === 1) {
                     setProducts(response.data.products)
@@ -84,7 +97,7 @@ function Context(props) {
 
 
     return (
-        <MainContext.Provider value={{ API_BASE_URL, CATEGORY_URL, notify, getCategories, categories, COLOR_URL, getColors, colors, PRODUCT_URL, getProduct, products, ADMIN_URL }}>
+        <MainContext.Provider value={{ API_BASE_URL, CATEGORY_URL, notify, getCategories, categories, COLOR_URL, getColors, colors, PRODUCT_URL, getProduct, products, ADMIN_URL, USER_URL }}>
             <ToastContainer position="top-right"
                 autoClose={5000}
                 hideProgressBar={false}

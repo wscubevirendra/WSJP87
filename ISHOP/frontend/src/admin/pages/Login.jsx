@@ -2,9 +2,15 @@ import React, { useContext } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { MainContext } from '../../Context';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { setAdmin } from '../../redux/features/adminSlice';
 
 const Login = () => {
     const { API_BASE_URL, ADMIN_URL, notify } = useContext(MainContext)
+    const navigator = useNavigate()
+    const dispacher = useDispatch()
+
 
     function submiHandle(e) {
         e.preventDefault();
@@ -12,14 +18,24 @@ const Login = () => {
             email: e.target.email.value,
             password: e.target.password.value,
         }
-        console.log("Hello")
+
 
         axios.post(API_BASE_URL + ADMIN_URL + "/login", data).then(
-            (resp) => {
+            async (resp) => {
+
                 notify(resp.data.msg, resp.data.flag)
                 if (resp.data.flag === 1) {
-                    console.log(resp.data)
                     e.target.reset()
+                    dispacher(setAdmin(
+                        {
+                            admin: resp.data.admin,
+                            token: resp.data.token
+                        }
+                    ))
+                   
+
+
+                    navigator("/admin")
                 }
 
             }

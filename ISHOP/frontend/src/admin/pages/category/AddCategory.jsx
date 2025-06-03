@@ -3,8 +3,10 @@ import { FiArrowLeft } from 'react-icons/fi';
 import axios from 'axios';
 import { MainContext } from '../../../Context';
 import { Link } from "react-router-dom"
+import { useSelector } from 'react-redux';
 
 const AddCategory = () => {
+  const admin = useSelector((state) => state.admin);
   const { API_BASE_URL, CATEGORY_URL, notify } = useContext(MainContext)
   const nameRef = useRef();
   const slugRef = useRef();
@@ -22,7 +24,13 @@ const AddCategory = () => {
     formData.append("slug", slugRef.current.value);
     formData.append("image", e.target.category_image.files[0])
 
-    axios.post(API_BASE_URL + CATEGORY_URL + "/create", formData).then(
+    axios.post(API_BASE_URL + CATEGORY_URL + "/create", formData,
+      {
+        headers: {
+          Authorization: admin?.token
+        }
+      }
+    ).then(
       (resp) => {
         notify(resp.data.msg, resp.data.flag)
         if (resp.data.flag === 1) {

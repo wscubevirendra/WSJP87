@@ -1,42 +1,94 @@
-import React from 'react';
-import { FaShoppingCart, FaUser, FaSearch } from 'react-icons/fa';
+import { FiChevronDown } from 'react-icons/fi';
+import { BsCart2 } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { lsToCart, emtyCart } from '../../redux/features/cartSlice';
+import { userLogout } from '../../redux/features/userSlice';
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart);
+    const user = useSelector((state) => state.user.data)
+
+
+    useEffect(
+        () => {
+            dispatch(lsToCart())
+        },
+        []
+    )
+
+    function logoutHandler() {
+        dispatch(userLogout());
+        dispatch(emtyCart());
+    }
     return (
-        <header className="w-full shadow-md bg-white sticky top-0 z-50">
-            <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <header className="w-full bg-white px-6 py-3 shadow flex flex-col  items-center justify-between">
+            {/* Top Bar */}
+            <div className="flex justify-between items-center w-full text-sm text-gray-600">
+                <div className="flex gap-3 items-center">
+                    <span className="bg-gray-100 px-2 py-1 rounded">Hotline 24/7</span>
+                    <span className="font-semibold">(025) 3886 25 16</span>
+                </div>
+                <div className="flex items-center gap-6">
+                    <a href="#" className="hover:underline">Sell on Swoo</a>
+                    <a href="#" className="hover:underline">Order Tracki</a>
+                    <div className="flex items-center gap-1">
+                        <span>USD</span>
+                        <FiChevronDown />
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <img src="https://flagcdn.com/us.svg" alt="US Flag" className="w-5 h-4" />
+                        <span>Eng</span>
+                        <FiChevronDown />
+                    </div>
+                </div>
+            </div>
 
-                {/* Logo */}
-                <div className="text-2xl font-bold text-blue-600">ShopMate</div>
-
-                {/* Navigation Links */}
-                <nav className="hidden md:flex space-x-6 text-gray-700 font-medium">
-                    <a href="#" className="hover:text-blue-600">Home</a>
-                    <a href="#" className="hover:text-blue-600">Shop</a>
-                    <a href="#" className="hover:text-blue-600">About</a>
-                    <a href="#" className="hover:text-blue-600">Contact</a>
-                </nav>
-
-                {/* Search + Icons */}
-                <div className="flex items-center space-x-4">
-                    {/* Search */}
-                    <div className="relative hidden sm:block">
-                        <input
-                            type="text"
-                            placeholder="Search products..."
-                            className="pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        <FaSearch className="absolute top-2.5 left-3 text-gray-500" />
+            {/* Bottom Navbar */}
+            <div className="mt-5 flex flex-wrap items-center justify-between w-full">
+                <div className="flex items-center gap-3">
+                    {/* Logo */}
+                    <div className="w-60 h-10 rounded-full flex items-center justify-center text-white text-xl font-semibold">
+                        <img src="logo.png" alt="" />
                     </div>
 
-                    {/* Icons */}
-                    <button className="text-gray-700 hover:text-blue-600 text-xl">
-                        <FaUser />
-                    </button>
-                    <button className="text-gray-700 hover:text-blue-600 text-xl relative">
-                        <FaShoppingCart />
-                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">2</span>
-                    </button>
+                </div>
+
+                {/* Navigation */}
+                <nav className="flex gap-4 font-semibold text-sm text-black ml-6">
+                    <Link to="/" className="flex items-center gap-1 hover:text-teal-600">HOMES </Link>
+                    <a href="#" className="flex items-center gap-1 hover:text-teal-600">PAGES </a>
+                    <Link to="/store" className="flex items-center gap-1 hover:text-teal-600">PRODUCTS </Link>
+                    <a href="#" className="hover:text-teal-600">CONTACT</a>
+                </nav>
+
+                {/* Right Actions */}
+                <div className="flex items-center gap-6">
+                    <div className="text-right">
+                        <p className="text-xs text-gray-400">WELCOME</p>
+                        {
+                            user == null ?
+                                <Link to="/login?ref=header" className="text-sm cursor-pointer font-bold hover:underline">
+                                    LOG IN / REGISTER</Link>
+                                :
+                                <div onClick={logoutHandler} className="text-sm font-bold cursor-pointer hover:underline">
+                                    Logout</div>
+                        }
+
+                    </div>
+
+                    {/* Cart */}
+                    <Link to="/cart" className="relative">
+
+                        <div className="relative flex items-center">
+                            <BsCart2 size={24} />
+                            <span className="absolute -top-3 left-2 bg-teal-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">{cart.items.length}</span>
+                            <span className="ml-2   font-semibold">$1,689.00</span>
+                        </div>
+                    </Link>
+
                 </div>
             </div>
         </header>
